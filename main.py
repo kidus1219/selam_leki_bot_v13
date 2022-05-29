@@ -34,6 +34,7 @@ if __name__ == '__main__':
     View.application = application
     # View.ct = ct
 
+    application.user_data['lock'] = False
     application.add_handler(TypeHandler(Update, wait_abit_cb), -1)
     application.add_handler(primary_convo)
     application.add_handler(CommandHandler('chk', chk))
