@@ -6,10 +6,27 @@ from const import MAIN_HOST
 def get_one(idd, context=None):
     if context is not None:
         context.user_data['lock'] = True
-        resp = requests.get(MAIN_HOST+"mezmurs/one/" + str(idd))
         resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
         resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
         resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
+
         context.user_data['lock'] = False
     else:
         resp = requests.get(MAIN_HOST+"mezmurs/one/" + str(idd))
