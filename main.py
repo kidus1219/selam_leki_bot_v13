@@ -26,7 +26,6 @@ def wait_abit_cb(update, context):
     if context.user_data['lock']:
         update.message.reply_text("wait a lil bit,,")
         raise DispatcherHandlerStop
-    update.message.reply_text("waiit,,")
 
 
 if __name__ == '__main__':

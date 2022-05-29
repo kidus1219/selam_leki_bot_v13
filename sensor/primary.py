@@ -39,13 +39,13 @@ def web_app_data(update, context) -> None:
 
 def browse_cb(update, context):
     # reset dozone_title_start and end on fresh browser page
-    data = get_dozen_title(context.user_data['dozen_title_start'], context.user_data['dozen_title_end'])
+    data = get_dozen_title(context.user_data['dozen_title_start'], context.user_data['dozen_title_end'], context=context)
     temp = ""
     for x in data:
         temp += "/"+str(x[0])+" "+x[1]+"\n\n"
     View(template.JUST_BACK, var_text=["✅ Browser Page"]).printer(update.effective_chat.id)
     View(template.BROWSE_TITLE, var_text=[temp]).printer(update.effective_chat.id)
-    context.user_data['mz_size'] = get_size()
+    context.user_data['mz_size'] = get_size(context=context)
     return 2
 
 
@@ -87,7 +87,7 @@ def prev_cb(update, context):
         context.user_data['dozen_title_start'] = 1
     context.user_data['dozen_title_end'] = context.user_data['dozen_title_start'] + DOZEN_TITLE_SIZE - 1
 
-    data = get_dozen_title(context.user_data['dozen_title_start'], context.user_data['dozen_title_end'])
+    data = get_dozen_title(context.user_data['dozen_title_start'], context.user_data['dozen_title_end'], context=context)
     temp = ""
     for x in data:
         temp += "/"+str(x[0])+" "+x[1]+"\n\n"
@@ -105,7 +105,7 @@ def next_cb(update, context):
         context.user_data['dozen_title_end'] += context.user_data['mz_size'] - context.user_data['dozen_title_end']
     context.user_data['dozen_title_start'] = context.user_data['dozen_title_end'] - DOZEN_TITLE_SIZE
 
-    data = get_dozen_title(context.user_data['dozen_title_start'], context.user_data['dozen_title_end'])
+    data = get_dozen_title(context.user_data['dozen_title_start'], context.user_data['dozen_title_end'], context=context)
     temp = ""
     for x in data:
         temp += "/"+str(x[0])+" "+x[1]+"\n\n"
@@ -119,13 +119,13 @@ def browse_lyrics_cb(update, context):
         print("invalid input")
         update.message.reply_text("invalid input!\nmaybe it's on another page")
         return
-    data = get_one(given)
+    data = get_one(given, context=context)
     lyrics = ""
     for x in data['lyrics'].split("[አዝ]"):
         lyrics += x + "\n\n"
     View(template.JUST_BACK, var_text=["✅ Browser Page"]).printer(update.effective_chat.id)
     View(template.BROWSE_LYRICS, var_text=[data['id'], data['title'], lyrics], var_key=[[0, 0, ["👁‍🗨", "cb", MAIN_HOST+"mezmurs/reader/"+str(given)]]]).printer(update.effective_chat.id)
-    context.user_data['mz_size'] = get_size()
+    context.user_data['mz_size'] = get_size(context=context)
     return 21
 
 
