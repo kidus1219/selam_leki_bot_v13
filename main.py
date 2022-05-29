@@ -1,5 +1,6 @@
 import logging
-from telegram.ext import Updater, CommandHandler, MessageHandler, filters
+from telegram import Update
+from telegram.ext import Updater, CommandHandler, TypeHandler, DispatcherHandlerStop
 
 from config import TOKEN, PORT
 from db.crud import get_dozen_title
@@ -21,12 +22,19 @@ def chk(update, context):
     pass
 
 
+def wait_abit_cb(update, context):
+    if context.user_data['lock']:
+        update.message.reply_text("wait a lil bit,,")
+        raise DispatcherHandlerStop
+
+
 if __name__ == '__main__':
     updater = Updater(TOKEN)
     application = updater.dispatcher
     View.application = application
     # View.ct = ct
 
+    application.add_handler(TypeHandler(Update, wait_abit_cb), -1)
     application.add_handler(primary_convo)
     application.add_handler(CommandHandler('chk', chk))
     #  start weebhook
