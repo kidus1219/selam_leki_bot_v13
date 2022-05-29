@@ -119,6 +119,9 @@ def browse_lyrics_cb(update, context):
         print("invalid input")
         return
     data = get_one(given)
+    lyrics = ""
+    for x in data['lyrics'].split("[አዝ]"):
+        lyrics += x + "\n\n"
     View(template.JUST_BACK, var_text=["✅ Browser Page"]).printer(update.effective_chat.id)
     View(template.BROWSE_LYRICS, var_text=[data['id'], data['title'], data['lyrics']], var_key=[[0, 0, ["👁‍🗨", "cb", MAIN_HOST+"mezmurs/reader/"+str(given)]]]).printer(update.effective_chat.id)
     context.user_data['mz_size'] = get_size()
