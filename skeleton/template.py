@@ -7,7 +7,7 @@ HOME = {
     'keyboard': [
         [["New Mezmur", MAIN_HOST+"mezmurs/new/"]],
         [["Browse"], ["Search"]],
-        [["Setting"], ["Help"]],
+        [["Profile"], ["Help"]],
         [["Contact Us"], ["About"]]
     ],
     'return_call': 0
