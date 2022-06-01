@@ -40,6 +40,6 @@ if __name__ == '__main__':
     application.add_handler(primary_convo)
     application.add_handler(CommandHandler('chk', chk))
     #  start weebhook
-    updater.start_webhook("0.0.0.0", PORT, TOKEN, webhook_url='https://selam-leki-bot-v13.herokuapp.com/' + TOKEN, drop_pending_updates=True)
-    #updater.start_polling(drop_pending_updates=True)
+    #updater.start_webhook("0.0.0.0", PORT, TOKEN, webhook_url='https://selam-leki-bot-v13.herokuapp.com/' + TOKEN, drop_pending_updates=True)
+    updater.start_polling(drop_pending_updates=True)
     updater.idle()

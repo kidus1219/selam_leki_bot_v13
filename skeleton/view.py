@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from telegram import InlineKeyboardButton, WebAppInfo, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup, \
     ReplyKeyboardRemove
 
@@ -17,7 +19,7 @@ class View:
 
         self.text = template['text']
         self.keyboard_type = template['keyboard_type']
-        self.raw_keyboard = template['keyboard']
+        self.raw_keyboard = deepcopy(template['keyboard'])
         self.shy = shy
         self.markup = None
         self.return_call = template['return_call']
@@ -30,6 +32,8 @@ class View:
         if self.keyboard_type == "inline":
             for x in self.raw_keyboard:
                 for y in x:
+                    if not y[0]:
+                        continue
                     if len(y) == 3:
                         keyrow.append(InlineKeyboardButton(text=y[0], web_app=WebAppInfo(url=y[2])))
                     else:
@@ -40,6 +44,8 @@ class View:
         elif self.keyboard_type == "reply":
             for x in self.raw_keyboard:
                 for y in x:
+                    if not y[0]:
+                        continue
                     if len(y) == 1:
                         keyrow.append(y[0])
                     else:
@@ -63,12 +69,6 @@ class View:
     def mold_key(self, rry):
         for x in rry:
             self.raw_keyboard[x[0]][x[1]] = x[2]
-        # for x in self.raw_keyboard:
-        #     for y in range(len(x)):
-        #         if x[y] == TEXT_PH:
-        #             x[y] = rry[0]
-        #             del rry[0]
-
     def printer(self, chat_id):
         inline_view_board = self.__class__.application.user_data[chat_id].setdefault('inline_view_board', None)
         if self.keyboard_type == "inline":

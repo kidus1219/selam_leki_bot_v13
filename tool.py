@@ -1,17 +1,25 @@
-def mz_dict_to_query(dictt):
-    result = ""
-    for x in dictt.items():
-        print(x)
-        if isinstance(x[1], str):
-            result += x[0]+"="+x[1]+"&"
-        else:
-            for y in x[1]:
-                result += x[0] + "=" + y + "&"
 
-    result = result[:-1].replace(" ", "+")
-    return result
+def set_name(val, me):
+    me.name = val
 
 
-a = {'title': 'selam leki', 'artist': [0, 'yilma'], 'lyrics': ['eyale', 'eyale', 'eyale', 'eyale']}
+def set_lang(val, me):
+    me.name = val
 
-#dict_to_query(a)
+
+setting_methods = {
+    'name': set_name,
+    'lang': set_lang
+}
+
+
+def clean_inlines(function):
+    def wrapper(*args, **kwargs):
+        print("decorating")
+        return function(*args, **kwargs)
+    return wrapper
+
+
+@clean_inlines
+def say_this(p):
+    print(p)
