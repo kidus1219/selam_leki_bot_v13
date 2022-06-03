@@ -38,13 +38,8 @@ def get_size(context=None):
     return resp.json()
 
 
-def save_request(idd, uid, context=None):
-    if context is not None:
-        context.user_data['lock'] = True
-        resp = requests.get(MAIN_HOST+"mezmurs/save/"+str(idd))
-        context.user_data['lock'] = False
-    else:
-        resp = requests.get(MAIN_HOST+"mezmurs/save/"+str(idd), params={'user': uid})
+def save_request(data):
+    resp = requests.post(MAIN_HOST + "mezmurs/save/", data=data)
     return resp.json()
 
 

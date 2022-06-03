@@ -1,14 +1,15 @@
+from db.crud import save_request
+from sensor.zeroz import home
 from skeleton import template
 from skeleton.view import View
 
 
-def home(update, context):
-    return View(template.ADD_NEW).printer(update.effective_chat.id)
-
-
 def save_cb(update, context):
-    resp = save_request(context.user_data['temp_idd'], update.effective_chat.id)
+    context.user_data['temp_mz']['user'] = update.effective_chat.id
+    resp = save_request(context.user_data['temp_mz'])
     update.message.reply_text(resp)
-    return View(template.HOME).printer(update.effective_chat.id)
+    return home(update, context)
 
 
+def back(update, context):
+    return home(update, context)

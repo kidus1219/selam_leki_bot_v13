@@ -5,22 +5,12 @@ HOME = {
     'text': f"{TEXT_PH}",
     'keyboard_type': "reply",
     'keyboard': [
-        [["New Mezmur", MAIN_HOST+"mezmurs/new/"]],
-        [["Browse"], ["Search"]],
-        [["Profile"], ["Help"]],
-        [["Contact Us"], ["About"]]
+        [["📝New Mezmur", MAIN_HOST+"mezmurs/new/"]],
+        [["📖Browse"], ["🔍Search", MAIN_HOST+"mezmurs/search/"]],
+        [["👥Profile"], ["⁉️Help"]],
+        [["📥Contact Us"], ["ℹ️About"]]
     ],
     'return_call': 0
-}
-
-ADD_NEW = {
-    'id': "add new",
-    'text': "⚠️This page is not ready yet ⚠",
-    'keyboard_type': "reply",
-    'keyboard': [
-        [["Back"]]
-    ],
-    'return_call': None
 }
 
 REVIEW_MEZMUR = {
@@ -49,7 +39,8 @@ BROWSE_TITLE = {
     'text': f"{TEXT_PH}",
     'keyboard_type': "inline",
     'keyboard': [
-        [["<~", "prev"], ["~>", "next"]]
+        [["<~", "prev"], ["~>", "next"]],
+        [["Back", "back"]]
     ],
     'return_call': 2
 }
@@ -63,15 +54,16 @@ BROWSE_LYRICS = {
 ~~~   ~~~   ~~~
 
 {TEXT_PH}
-~~~~~~~~~~~~~~~~~~
+————————————
 ዘማሪ: {TEXT_PH}
-{TEXT_PH}
 """,
     'keyboard_type': "inline",
     'keyboard': [
-        [TEXT_PH]
+        [["⭐️Add to Favorite", "add_to_fav"], TEXT_PH],
+        [TEXT_PH],
+        [["Back", "back"]]
     ],
-    'return_call': 2
+    'return_call': 21
 }
 
 SEARCH = {
@@ -87,17 +79,15 @@ SEARCH = {
 PROFILE = {
     'id': "setting",
     'text': f"""
-<b>PROFILE</b>
+👥<b>PROFILE</b>
 —————————————————
 <b>/NAME</b> :  <code>{TEXT_PH}</code>
 
 <b>/LANG</b> :  <code>{TEXT_PH}</code>
 
-<b>STAR</b> :  <code>{TEXT_PH}</code>
+<b>STAR</b> :  <code>{TEXT_PH}</code>🎖
 
 <b>/Accepted</b> : <code>{TEXT_PH} Mezmurs</code>
-
-<b>/Declined</b> :  <code>{TEXT_PH} Mezmurs</code>
 
 —————————————————
 
@@ -217,5 +207,5 @@ SET_LANG = {
     'keyboard': [
         [["Amharic", "am"], ["English", "eng"]]
     ],
-    'return_call': 43
+    'return_call': 41
 }

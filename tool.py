@@ -1,3 +1,7 @@
+import requests
+
+from const import MAIN_HOST
+
 
 def set_name(val, me):
     me.name = val
@@ -23,3 +27,5 @@ def clean_inlines(function):
 @clean_inlines
 def say_this(p):
     print(p)
+
+

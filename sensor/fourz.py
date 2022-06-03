@@ -1,4 +1,4 @@
-from telegram import Update
+from telegram import Update, ForceReply
 from telegram.ext import CallbackContext
 from skeleton import template
 from skeleton.view import View
@@ -18,8 +18,7 @@ def home(update, context):
 def setting(update: Update, context):
     given = update.message.text
     if given == "/NAME":
-        context.user_data['to_be_set'] = "name"
-        update.message.reply_text("Enter New Name", quote=True)
+        update.message.reply_text("Enter Your New Name", reply_markup=ForceReply(input_field_placeholder="Write in the reply"))
     elif given == "/LANG":
         return View(template.SET_LANG).printer(update.effective_chat.id)
 
@@ -40,7 +39,13 @@ def no_cb(update: Update, context: CallbackContext):
     return View(template.HOME).printer(update.effective_chat.id)
 
 
-def set_lang_cb(update: Update, context: CallbackContext):
+def set_name(update: Update, context: CallbackContext):
+    if update.message.reply_to_message.text == "Enter Your New Name":
+        context.user_data['me'].name = update.message.text
+    return home(update, context)
+
+
+def set_lang(update: Update, context: CallbackContext):
     qry = update.callback_query.data
     if qry == "am":
         context.user_data['me'].lang = "Amharic"
@@ -48,7 +53,7 @@ def set_lang_cb(update: Update, context: CallbackContext):
     elif qry == "eng":
         update.callback_query.answer("English Language Has Been Set.")
         context.user_data['me'].lang = "English"
-    return View(template.HOME).printer(update.effective_chat.id)
+    return home(update, context)
 
 
 def register(update: Update, context: CallbackContext):
