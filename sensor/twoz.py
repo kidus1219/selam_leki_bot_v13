@@ -10,6 +10,7 @@ def home(update, context):
         update.callback_query.answer("Browse Page")
     else:
         update.message.reply_text("...", reply_markup=ReplyKeyboardRemove())
+        context.user_data['page_num'] = 1
     context.user_data['page_length'] = get_page_length()
     data = change_page(0, context)
     temp = ""
@@ -52,7 +53,8 @@ def mezmur_detail(update, context):
     for x in mz['lyrics'].split("[አዝ]"):
         lyrics += x + "\n[አዝ]\n"
     star = STAR_HOLDER.replace("0", "🎖", mz['star'])
-    View(template.BROWSE_LYRICS, var_text=[mz['id'], star, mz['title'], lyrics, mz['artist']], var_key=[[0, 1, ["✍️Modify", "cb", MAIN_HOST + "mezmurs/reading_mode/" + str(given)]], [1, 0, ["👁‍🗨 Reading Mode", "cb", MAIN_HOST + "mezmurs/reading_mode/" + str(given)]]]).printer(update.effective_chat.id)
-    context.user_data['mz_size'] = get_size() # why
+    # View(template.BROWSE_LYRICS, var_text=[mz['id'], star, mz['title'], lyrics, mz['artist']], var_key=[[0, 1, ["✍️Modify", "cb", MAIN_HOST + "mezmurs/modify/" + str(given)+"/"]], [1, 0, ["👁‍🗨 Reading Mode", "cb", MAIN_HOST + "mezmurs/reading_mode/" + str(given)+"/"]]]).printer(update.effective_chat.id)
+    View(template.BROWSE_LYRICS, var_text=[mz['id'], star, mz['title'], lyrics, mz['artist']], var_key=[[0, 0, ["👁‍🗨 Reading Mode", "cb", MAIN_HOST + "mezmurs/reading_mode/" + str(given) + "/"]]]).printer(update.effective_chat.id)
+    # context.user_data['mz_size'] = get_size() # why
     update.message.delete()
     return 21

@@ -6,7 +6,7 @@ HOME = {
     'keyboard_type': "reply",
     'keyboard': [
         [["📝New Mezmur", MAIN_HOST+"mezmurs/new/"]],
-        [["📖Browse"], ["🔍Search", MAIN_HOST+"mezmurs/search/"]],
+        [["📖Browse"], ["🔍Search", MAIN_HOST+"mezmurs/search"]],
         [["👥Profile"], ["⁉️Help"]],
         [["📥Contact Us"], ["ℹ️About"]]
     ],
@@ -59,7 +59,7 @@ BROWSE_LYRICS = {
 """,
     'keyboard_type': "inline",
     'keyboard': [
-        [["⭐️Add to Favorite", "add_to_fav"], TEXT_PH],
+        #[["⭐️Add to Favorite", "add_to_fav"], TEXT_PH],
         [TEXT_PH],
         [["Back", "back"]]
     ],

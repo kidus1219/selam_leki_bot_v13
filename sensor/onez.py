@@ -5,7 +5,6 @@ from skeleton.view import View
 
 
 def save_cb(update, context):
-    context.user_data['temp_mz']['user'] = update.effective_chat.id
     resp = save_request(context.user_data['temp_mz'])
     update.message.reply_text(resp)
     return home(update, context)

@@ -1,7 +1,7 @@
 import json
 from telegram import ReplyKeyboardRemove
 from const import MAIN_HOST, STAR_HOLDER
-from db.crud import get_mezmur_detail
+from db.crud import get_mezmur_detail, store_for_edit
 from skeleton import template
 from skeleton.me import Me
 from skeleton.view import View
@@ -20,6 +20,7 @@ def home(update, context):
 def start(update, context):
     context.user_data['me'] = Me(update.effective_chat.id, update.message.from_user.username, update.message.from_user.full_name)
     context.user_data['lock'] = False
+    context.user_data['clean_input'] = True
     context.user_data['page_num'] = 1
     context.user_data['page_length'] = 0
     context.user_data['accepted_input'] = None
@@ -39,12 +40,14 @@ def web_app_data(update, context):
             lyrics += x + "\n[አዝ]\n"
         star = STAR_HOLDER.replace("0", "🎖", mz['star'])
         update.message.reply_text("...", reply_markup=ReplyKeyboardRemove())
-        return View(template.BROWSE_LYRICS, var_text=[mz['id'], star, mz['title'], lyrics, mz['artist']], var_key=[[0, 1, ["✍️Modify", "cb", MAIN_HOST + "mezmurs/reading_mode/" + str(data['id'])]], [1, 0, ["👁‍🗨 Reading Mode", "cb", MAIN_HOST + "mezmurs/reading_mode/" + str(data['id'])]]]).printer(update.effective_chat.id)
+        return View(template.BROWSE_LYRICS, var_text=[mz['id'], star, mz['title'], lyrics, mz['artist']], var_key=[[0, 1, ["✍️Modify", "cb", MAIN_HOST + "mezmurs/modify/" + str(data['id']) + "/"]], [1, 0, ["👁‍🗨 Reading Mode", "cb", MAIN_HOST + "mezmurs/reading_mode/" + str(data['id']) + "/"]]]).printer(update.effective_chat.id)
     else:
         print(data)
         lyrics = ""
         context.user_data['temp_mz'] = data
+        context.user_data['temp_mz']['user'] = update.effective_chat.id
+        store_for_edit(context.user_data['temp_mz'])
         for x in data['lyrics']:
             lyrics += x + "\n\n"
-        return View(template.REVIEW_MEZMUR, var_text=[data['title'], lyrics, data['artist'][1] + " " + data['artist'][2]], var_key=[[0, 1, ["✍️Edit", f"{MAIN_HOST}mezmurs/edit/"]]]).printer(update.effective_chat.id)
+        return View(template.REVIEW_MEZMUR, var_text=[data['title'], lyrics, data['artist'][1] + " " + data['artist'][2]], var_key=[[0, 1, ["✍️Edit", f"{MAIN_HOST}mezmurs/edit/"+str(update.effective_chat.id)+"/"]]]).printer(update.effective_chat.id)
 

@@ -14,13 +14,12 @@ class View:
     def get_application(cls, application):
         cls.application = application
 
-    def __init__(self, template, shy=False, var_text=None, var_key=None, bird=False):
+    def __init__(self, template, var_text=None, var_key=None, bird=False):
         # self.__class__.ct.create_snapshot(description=template['id'])
 
         self.text = template['text']
         self.keyboard_type = template['keyboard_type']
         self.raw_keyboard = deepcopy(template['keyboard'])
-        self.shy = shy
         self.markup = None
         self.return_call = template['return_call']
         if var_text is not None:
@@ -69,27 +68,35 @@ class View:
     def mold_key(self, rry):
         for x in rry:
             self.raw_keyboard[x[0]][x[1]] = x[2]
+
     def printer(self, chat_id):
         inline_view_board = self.__class__.application.user_data[chat_id].setdefault('inline_view_board', None)
         if self.keyboard_type == "inline":
             if not inline_view_board:
                 self.__class__.application.user_data[chat_id][
                     'inline_view_board'] = self.__class__.application.bot.send_message(chat_id=chat_id,
-                                                                                             text=self.text,
-                                                                                             protect_content=True,
-                                                                                             parse_mode="html",
-                                                                                             reply_markup=self.markup)
+                                                                                       text=self.text,
+                                                                                       protect_content=True,
+                                                                                       parse_mode="html",
+                                                                                       reply_markup=self.markup)
             else:
                 self.__class__.application.user_data[chat_id]['inline_view_board'] = inline_view_board.edit_text(
                     text=self.text, parse_mode="html", reply_markup=self.markup)
         else:
             if not not inline_view_board:
-                inline_view_board.delete()
+                try:
+                    inline_view_board.delete()
+                except Exception:
+                    pass
                 self.__class__.application.user_data[chat_id]['inline_view_board'] = None
+
             self.__class__.application.bot.send_message(chat_id=chat_id, text=self.text, parse_mode="html",
-                                                              reply_markup=self.markup)
+                                                        reply_markup=self.markup)
 
         return self.return_call
+
+
+
 
     def __repr__(self):
         return self.text
