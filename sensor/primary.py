@@ -31,8 +31,8 @@ def get_leaderboard(update, context):
 -------------------------------------
 
 """
-    for x, y in data.items():
-        data_view += f"#{counter}. {x} : {y}\n"
+    for y in data.values:
+        data_view += f"#{counter}. {y[1]} : {y[0]}\n"
         counter += 1
     context.user_data['reply_view_board'].append(update.message.reply_text(data_view).message_id)
 
