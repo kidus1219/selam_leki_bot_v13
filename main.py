@@ -28,6 +28,7 @@ def get_bot_pass(update: Update, context: CallbackContext):
     update.message.reply_text(str(context.bot_data['bot_pass']))
 
 
+"""
 def set_tli(update, context):
     if len(context.args) > 0:
         try:
@@ -42,13 +43,14 @@ def set_tli(update, context):
     else:
         update.message.reply_text("error")
 
+"""
 
 if __name__ == '__main__':
     updater = Updater(TOKEN, persistence=PostgresPersistence(url=DATABASE_URL))
     #updater = Updater(TOKEN)
     application = updater.dispatcher
     application.bot_data['bot_pass'] = {'convo_persist_pass': "1234", 'user_data_pass': "5678"}
-    application.bot_data['today_leaderboard_initial'] = 1
+    # application.bot_data['today_leaderboard_initial'] = 1
     View.application = application
 
     application.add_handler(TypeHandler(Update, cleaner), -1)
