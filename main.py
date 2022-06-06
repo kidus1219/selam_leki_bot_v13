@@ -38,6 +38,8 @@ def set_tli(update, context):
         else:
             application.bot_data['today_leaderboard_initial'] = int(context.args[0])
             update.message.reply_text("DONE")
+    else:
+        update.message.reply_text("error")
 
 
 if __name__ == '__main__':
@@ -53,7 +55,6 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('get_bot_pass', get_bot_pass, filters=Filters.user(user_id=[543495028])))
     application.add_handler(primary_convo)
 
-    updater.start_webhook("0.0.0.0", PORT, TOKEN, webhook_url='https://selam-leki-bot-v13.herokuapp.com/' + TOKEN,
-                          drop_pending_updates=True)
+    updater.start_webhook("0.0.0.0", PORT, TOKEN, webhook_url='https://selam-leki-bot-v13.herokuapp.com/' + TOKEN, drop_pending_updates=True)
     # updater.start_polling(drop_pending_updates=True)
     updater.idle()
