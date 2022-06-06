@@ -82,5 +82,5 @@ primary_convo = ConversationHandler(
     ],
     allow_reentry=True,
     name="primary_convo",
-    persistent=False
+    persistent=True
 )
