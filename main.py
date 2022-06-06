@@ -36,7 +36,8 @@ def set_tli(update, context):
             print(e)
             update.message.reply_text(str(e))
         else:
-            application.bot_data['today_leaderboard_initial'] = int(context.args[0])
+            print("===========here")
+            application.bot_data['today_leaderboard_initial'] = context.args[0]
             update.message.reply_text("DONE")
     else:
         update.message.reply_text("error")
