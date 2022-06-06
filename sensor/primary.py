@@ -77,7 +77,8 @@ primary_convo = ConversationHandler(
     },
     fallbacks=[
         MessageHandler(Filters.text & Filters.regex("^Back$"), zeroz.home),
-        CommandHandler('clear_my_persistence', clear_my_persistence)
+        CommandHandler('clear_my_persistence', clear_my_persistence),
+        CommandHandler('CONTACT_US', sixz.home),
     ],
     allow_reentry=True,
     name="primary_convo",
