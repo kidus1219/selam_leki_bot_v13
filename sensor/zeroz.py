@@ -1,6 +1,6 @@
 import json
 from telegram import ReplyKeyboardRemove
-from const import MAIN_HOST, STAR_HOLDER
+from const import MAIN_HOST
 from db.crud import get_mezmur_detail, store_for_edit
 from skeleton import template
 from skeleton.me import Me
@@ -18,13 +18,12 @@ def home(update, context):
 
 
 def start(update, context):
-    context.user_data['me'] = Me(update.effective_chat.id, update.message.from_user.username, update.message.from_user.full_name)
+    if context.user_data.get('me') is None:
+        context.user_data['me'] = Me(update.effective_chat.id, update.message.from_user.username, update.message.from_user.full_name).dict_form()
     context.user_data['lock'] = False
     context.user_data['clean_input'] = True
     context.user_data['page_num'] = 1
     context.user_data['page_length'] = 0
-    context.user_data['accepted_input'] = None
-    context.user_data['to_be_set'] = None
     return home(update, context)
 
 
@@ -38,9 +37,10 @@ def web_app_data(update, context):
         lyrics = ""
         for x in mz['lyrics'].split("[አዝ]"):
             lyrics += x + "\n[አዝ]\n"
-        star = STAR_HOLDER.replace("0", "🎖", mz['star'])
+        STAR_HOLDER = "0 0 0"
+        STAR_HOLDER.replace("0", "🎖", mz['star'])
         update.message.reply_text("...", reply_markup=ReplyKeyboardRemove())
-        return View(template.BROWSE_LYRICS, var_text=[mz['id'], star, mz['title'], lyrics, mz['artist']], var_key=[[0, 1, ["✍️Modify", "cb", MAIN_HOST + "mezmurs/modify/" + str(data['id']) + "/"]], [1, 0, ["👁‍🗨 Reading Mode", "cb", MAIN_HOST + "mezmurs/reading_mode/" + str(data['id']) + "/"]]]).printer(update.effective_chat.id)
+        return View(template.BROWSE_LYRICS, var_text=[mz['id'], STAR_HOLDER, mz['title'], lyrics, mz['artist']], var_key=[[0, 0, ["👁‍🗨 Reading Mode", "cb", MAIN_HOST + "mezmurs/reading_mode/" + str(data['id']) + "/"]]]).printer(update.effective_chat.id)
     else:
         print(data)
         lyrics = ""

@@ -69,34 +69,40 @@ class View:
         for x in rry:
             self.raw_keyboard[x[0]][x[1]] = x[2]
 
-    def printer(self, chat_id):
+    def printer(self, chat_id, clean_input=True):
+        reply_view_board = self.__class__.application.user_data[chat_id].setdefault('reply_view_board', [])
+        if not not reply_view_board:
+            for i in range(len(reply_view_board)):
+                try:
+                    self.__class__.application.bot.delete_message(chat_id=chat_id, message_id=reply_view_board[i])
+                except Exception as e:
+                    print("Delete Faild", e)
+                finally:
+                    reply_view_board[i] = None
+            self.__class__.application.user_data[chat_id]['reply_view_board'][:] = [x for x in reply_view_board if x is not None]
+
         inline_view_board = self.__class__.application.user_data[chat_id].setdefault('inline_view_board', None)
         if self.keyboard_type == "inline":
             if not inline_view_board:
-                self.__class__.application.user_data[chat_id][
-                    'inline_view_board'] = self.__class__.application.bot.send_message(chat_id=chat_id,
-                                                                                       text=self.text,
-                                                                                       protect_content=True,
-                                                                                       parse_mode="html",
-                                                                                       reply_markup=self.markup)
+                self.__class__.application.user_data[chat_id]['inline_view_board'] = self.__class__.application.bot.send_message(chat_id=chat_id, text=self.text, protect_content=True, parse_mode="html", reply_markup=self.markup).message_id
             else:
-                self.__class__.application.user_data[chat_id]['inline_view_board'] = inline_view_board.edit_text(
-                    text=self.text, parse_mode="html", reply_markup=self.markup)
+                try:
+                    self.__class__.application.user_data[chat_id]['inline_view_board'] = self.__class__.application.bot.edit_message_text(chat_id=chat_id,text=self.text, message_id=inline_view_board, parse_mode="html", reply_markup=self.markup).message_id
+                except Exception as e:
+                    print("Edit Failed", e)
+                    self.__class__.application.user_data[chat_id]['inline_view_board'] = self.__class__.application.bot.send_message(chat_id=chat_id, text=self.text, protect_content=True, parse_mode="html", reply_markup=self.markup).message_id
         else:
             if not not inline_view_board:
                 try:
-                    inline_view_board.delete()
-                except Exception:
-                    pass
-                self.__class__.application.user_data[chat_id]['inline_view_board'] = None
+                    self.__class__.application.bot.delete_message(chat_id=chat_id, message_id=inline_view_board)
+                    self.__class__.application.user_data[chat_id]['inline_view_board'] = None
+                except Exception as e:
+                    print("Delete Failed", e)
+            self.__class__.application.user_data[chat_id][
+                'reply_view_board'].append(self.__class__.application.bot.send_message(chat_id=chat_id, text=self.text, parse_mode="html", reply_markup=self.markup).message_id)
 
-            self.__class__.application.bot.send_message(chat_id=chat_id, text=self.text, parse_mode="html",
-                                                        reply_markup=self.markup)
-
+        self.__class__.application.user_data[chat_id]['clean_input'] = clean_input
         return self.return_call
-
-
-
 
     def __repr__(self):
         return self.text

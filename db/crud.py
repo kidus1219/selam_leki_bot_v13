@@ -4,27 +4,12 @@ from const import MAIN_HOST
 
 
 def get_mezmur_detail(idd):
-    resp = requests.get(MAIN_HOST + "mezmurs/" + str(idd))
+    resp = requests.get(MAIN_HOST + "mezmurs/" + str(idd) + "/")
     return resp.json()
 
 
-def get_one(idd, context=None):
-    if context is not None:
-        context.user_data['lock'] = True
-        resp = requests.get(MAIN_HOST + "mezmurs/one/" + str(idd))
-        context.user_data['lock'] = False
-    else:
-        resp = requests.get(MAIN_HOST+"mezmurs/one/" + str(idd))
-    return resp.json()
-
-
-def get_size(context=None):
-    if context is not None:
-        context.user_data['lock'] = True
-        resp = requests.get(MAIN_HOST+"mezmurs/size/")
-        context.user_data['lock'] = False
-    else:
-        resp = requests.get(MAIN_HOST+"mezmurs/size/")
+def get_size():
+    resp = requests.get(MAIN_HOST + "mezmurs/size/")
     return resp.json()
 
 
@@ -39,7 +24,7 @@ def store_for_edit(data):
 
 
 def get_page_length():
-    resp = requests.get(MAIN_HOST+"mezmurs/page/available/")
+    resp = requests.get(MAIN_HOST + "mezmurs/page/available/")
     return resp.json()
 
 
@@ -48,5 +33,10 @@ def change_page(val, context):
     page_num = context.user_data['page_num'] % context.user_data['page_length']
     if page_num == 0:
         page_num = context.user_data['page_length']
-    resp = requests.get(MAIN_HOST+"mezmurs/page/"+str(page_num)+"/")
+    resp = requests.get(MAIN_HOST + "mezmurs/page/" + str(page_num) + "/")
+    return resp.json()
+
+
+def post_register(me):
+    resp = requests.post(MAIN_HOST + "mezmurs/register/", data=me)
     return resp.json()

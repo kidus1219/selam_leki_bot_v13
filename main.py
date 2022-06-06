@@ -1,7 +1,6 @@
 import logging
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, TypeHandler, DispatcherHandlerStop
-
+from telegram.ext import Updater, CallbackContext, CommandHandler, Filters, TypeHandler
 from config import TOKEN, PORT, DATABASE_URL
 from db.postgrespersistence import PostgresPersistence
 from skeleton.view import View
@@ -13,40 +12,33 @@ logging.basicConfig(
 )
 
 
-# ct = classtracker.ClassTracker()
-# ct.track_class(View, name=str(View))
-
-
-def chk(update, context):
-    # print(ct.stats.print_summary())
-    pass
-
-
-def wait_abit_cb(update, context):
-    print(context.user_data.get('lock', "none"))
-    if context.user_data.get('lock', False):
-        update.message.reply_text("wait a lil bit,,")
-        raise DispatcherHandlerStop
-
-
-def input_cleaner(update: Update, context):
+def cleaner(update: Update, context: CallbackContext):
+    if update.message is None:
+        return
     if context.user_data.get('clean_input', True):
-        update.message.delete()
+        try:
+            update.message.delete()
+        except Exception as e:
+            print("cleaner Failed ", e)
     else:
         context.user_data['clean_input'] = True
 
 
-if __name__ == '__main__':
-    updater = Updater(TOKEN, persistence=PostgresPersistence(url=DATABASE_URL))
-    application = updater.dispatcher
-    View.application = application
-    # View.ct = ct
+def get_bot_pass(update: Update, context: CallbackContext):
+    update.message.reply_text(str(context.bot_data['bot_pass']))
 
-    # application.user_data['lock'] = False
-    application.add_handler(TypeHandler(Update, input_cleaner), 1)
+
+if __name__ == '__main__':
+    # updater = Updater(TOKEN, persistence=PostgresPersistence(url=DATABASE_URL))
+    updater = Updater(TOKEN)
+    application = updater.dispatcher
+    application.bot_data['bot_pass'] = {'convo_persist_pass': "1234", 'user_data_pass': "5678"}
+    View.application = application
+
+    application.add_handler(TypeHandler(Update, cleaner), -1)
     application.add_handler(primary_convo)
-    application.add_handler(CommandHandler('chk', chk))
-    #  start weebhook
+    application.add_handler(CommandHandler('get_bot_pass', get_bot_pass, filters=Filters.user(user_id=[543495028])))
+
     # updater.start_webhook("0.0.0.0", PORT, TOKEN, webhook_url='https://selam-leki-bot-v13.herokuapp.com/' + TOKEN, drop_pending_updates=True)
     updater.start_polling(drop_pending_updates=True)
     updater.idle()

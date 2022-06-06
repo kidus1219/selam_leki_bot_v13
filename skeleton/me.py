@@ -7,8 +7,7 @@ class Me():
         self.phone = None
         self.lang = "English"
         self.star = 0
-        self.accepted = 0
-        self.declined = 0
+        self.my_mezmurs = 0
         self.is_registered = False
 
     def dict_form(self):
@@ -17,6 +16,9 @@ class Me():
             'username': self.username,
             'name': self.name,
             'nick_name': self.nick_name,
-            'phone': self.phone
+            'phone': self.phone,
+            'lang': self.phone,
+            'star': self.star,
+            'my_mezmurs': self.my_mezmurs,
+            'is_registered': self.is_registered,
         }
-

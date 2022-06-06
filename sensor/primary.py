@@ -1,5 +1,25 @@
-from telegram.ext import ConversationHandler, CommandHandler, MessageHandler, CallbackQueryHandler, Filters
+import random
+
+from telegram.ext import DispatcherHandlerStop, ConversationHandler, CommandHandler, MessageHandler, CallbackQueryHandler, Filters
 from . import zeroz, onez, twoz, threez, fourz, fivez, sixz, sevenz
+
+
+def clear_my_persistence(update, context):
+    if len(context.args) > 0:
+        if context.args[0] == context.bot_data['bot_pass']['convo_persist_pass']:
+            context.bot_data['bot_pass']['convo_persist_pass'] = str(random.randrange(1000, 9999))
+            update.message.reply_text("Operation Successful!")
+            return -1
+        elif context.args[0] == context.bot_data['bot_pass']['user_data_pass']:
+            context.user_data.clear()
+            context.bot_data['bot_pass']['user_data_pass'] = str(random.randrange(1000, 9999))
+            update.message.reply_text("Operation Successful!")
+        else:
+            update.message.reply_text("Operation Failed!!\nIncorrect Password")
+    else:
+        update.message.reply_text("Operation Failed!!\nYou Don't have PERMISSION to do this right Now")
+    raise DispatcherHandlerStop
+
 
 primary_convo = ConversationHandler(
     entry_points=[CommandHandler('start', zeroz.start)],
@@ -29,7 +49,7 @@ primary_convo = ConversationHandler(
             CallbackQueryHandler(twoz.home, pattern="^back$"),
         ],
         4: [
-            MessageHandler(Filters.text & Filters.command & Filters.regex("^/(NAME|LANG|ACCEPTED)$"), fourz.setting),
+            # MessageHandler(Filters.text & Filters.command & Filters.regex("^/(MY_MEZMURS)$"), fourz.setting),
             MessageHandler(Filters.contact, fourz.register),
             MessageHandler(Filters.text & Filters.reply, fourz.set_name),
         ],
@@ -38,5 +58,11 @@ primary_convo = ConversationHandler(
         ],
 
     },
-    fallbacks=[MessageHandler(Filters.text & Filters.regex("^Back$"), zeroz.home)]
+    fallbacks=[
+        MessageHandler(Filters.text & Filters.regex("^Back$"), zeroz.home),
+        CommandHandler('clear_my_persistence', clear_my_persistence)
+    ],
+    allow_reentry=True,
+    name="primary_convo",
+    persistent=False
 )

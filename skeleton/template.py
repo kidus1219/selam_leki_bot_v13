@@ -8,7 +8,8 @@ HOME = {
         [["📝New Mezmur", MAIN_HOST+"mezmurs/new/"]],
         [["📖Browse"], ["🔍Search", MAIN_HOST+"mezmurs/search"]],
         [["👥Profile"], ["⁉️Help"]],
-        [["📥Contact Us"], ["ℹ️About"]]
+        [["📥Contact Us"], ["ℹ️About"]],
+        #[["ℹ️About"]]
     ],
     'return_call': 0
 }
@@ -81,13 +82,13 @@ PROFILE = {
     'text': f"""
 👥<b>PROFILE</b>
 —————————————————
-<b>/NAME</b> :  <code>{TEXT_PH}</code>
+<b>NAME</b> :  <code>{TEXT_PH}</code>
 
-<b>/LANG</b> :  <code>{TEXT_PH}</code>
+<b>LANG</b> :  <code>{TEXT_PH}</code>
 
 <b>STAR</b> :  <code>{TEXT_PH}</code>🎖
 
-<b>/Accepted</b> : <code>{TEXT_PH} Mezmurs</code>
+<b>MY_MEZMURS</b> : <code>{TEXT_PH} Mezmurs</code>
 
 —————————————————
 
