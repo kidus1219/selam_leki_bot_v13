@@ -1,7 +1,5 @@
 from db.crud import save_request
 from sensor.zeroz import home
-from skeleton import template
-from skeleton.view import View
 
 
 def save_cb(update, context):

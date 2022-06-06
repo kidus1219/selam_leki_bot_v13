@@ -22,3 +22,8 @@ class Me():
             'my_mezmurs': self.my_mezmurs,
             'is_registered': self.is_registered,
         }
+
+    def update_me(self, **kwargs):
+        self.star = kwargs.get('star', self.star)
+        self.my_mezmurs = kwargs.get('my_mezmurs', self.my_mezmurs)
+        return self

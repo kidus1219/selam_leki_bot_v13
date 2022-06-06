@@ -33,6 +33,7 @@ if __name__ == '__main__':
     updater = Updater(TOKEN)
     application = updater.dispatcher
     application.bot_data['bot_pass'] = {'convo_persist_pass': "1234", 'user_data_pass': "5678"}
+    application.bot_data['today_leaderboard_initial'] = 21
     View.application = application
 
     application.add_handler(TypeHandler(Update, cleaner), -1)

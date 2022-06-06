@@ -10,10 +10,10 @@ from skeleton.view import View
 def home(update, context):
     if update.callback_query:
         update.callback_query.answer("Home Page")
-    if True or context.user_data['me'].is_registered:
+    if context.user_data['me']['is_registered']:
         rtn = View(template.HOME, var_text=["<code>Select an option from below</code>"]).printer(update.effective_chat.id)
     else:
-        rtn = View(template.HOME, var_text=[f"<b>Hi, {context.user_data['me'].name}!</b>\n\n<code>In order to access all features like </code><b>adding new mezmur,</b><code> please register by going to Profile.</code>"], var_key=[[0, 0, [None]]]).printer(update.effective_chat.id)
+        rtn = View(template.HOME, var_text=[f"<b>Hi, {context.user_data['me']['name']}</b>\n\n<code>In order to access all features like </code><b>adding new mezmur,</b><code> please register by going to Profile.</code>"], var_key=[[0, 0, [None]]]).printer(update.effective_chat.id)
     return rtn
 
 

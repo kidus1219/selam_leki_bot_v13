@@ -37,6 +37,16 @@ def change_page(val, context):
     return resp.json()
 
 
-def post_register(me):
-    resp = requests.post(MAIN_HOST + "mezmurs/register/", data=me)
+def register_me(me):
+    resp = requests.post(MAIN_HOST + "mezmurs/user/", data=me)
+    return resp.json()
+
+
+def update_me_request(uid):
+    resp = requests.get(MAIN_HOST + "mezmurs/user/" + str(uid) + "/")
+    return resp.json()
+
+
+def leaderboard_request(idd):
+    resp = requests.get(MAIN_HOST + "mezmurs/leaderboard/" + str(idd) + "/")
     return resp.json()
